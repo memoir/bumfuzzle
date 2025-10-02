@@ -18,7 +18,7 @@ function animateTextAndBackground() {
   animating = true;
 
   const bgColors = ["blue", "green", "red"];
-  const textColors = ["orange", "white", "green", "yellow", "red", "blue"];
+  const textColors = ["DarkOrange", "white", "green", "yellow", "red", "blue", "DarkViolet", "DeepPink", "SaddleBrown", "black"];
   const words = [
     "yellow", "blue", "white", "orange", "red",
     "fumbuzzle", "fumblebuzz", "bumblefuzz", "fuzzlebum",
