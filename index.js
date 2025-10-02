@@ -8,6 +8,14 @@ document.addEventListener("click", function (e) {
   ) {
     return;
   }
+  animateTextAndBackground();
+});
+
+let animating = false;
+
+function animateTextAndBackground() {
+  if (animating) return;
+  animating = true;
 
   const colors = ["blue", "green", "red"];
   const words = [
@@ -15,15 +23,28 @@ document.addEventListener("click", function (e) {
     "fumbuzzle", "fumblebuzz", "bumblefuzz", "fuzzlebum",
     "buzzyfum", "bumfuzzle"
   ];
-
-  // Random background color
-  document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
-
-  // Random text, always uppercase
-  const text = words[Math.floor(Math.random() * words.length)].toUpperCase();
   const span = document.querySelector(".large-text");
-  if (span) span.textContent = text;
-});
+  let interval;
+  let elapsed = 0;
+  const duration = 300; // ms
+  const frame = 50; // ms
+
+  // Pick final background color immediately
+  const finalColor = colors[Math.floor(Math.random() * colors.length)];
+  document.body.style.background = finalColor;
+
+  interval = setInterval(() => {
+    // Only animate the text
+    if (span) span.textContent = words[Math.floor(Math.random() * words.length)].toUpperCase();
+    elapsed += frame;
+    if (elapsed >= duration) {
+      clearInterval(interval);
+      // Settle on final random word
+      if (span) span.textContent = words[Math.floor(Math.random() * words.length)].toUpperCase();
+      animating = false;
+    }
+  }, frame);
+}
 
 // Modal logic
 document.getElementById("help-btn").addEventListener("click", function (e) {
