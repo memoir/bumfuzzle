@@ -17,7 +17,8 @@ function animateTextAndBackground() {
   if (animating) return;
   animating = true;
 
-  const colors = ["blue", "green", "red"];
+  const bgColors = ["blue", "green", "red"];
+  const textColors = ["orange", "white", "green", "yellow", "red", "blue"];
   const words = [
     "yellow", "blue", "white", "orange", "red",
     "fumbuzzle", "fumblebuzz", "bumblefuzz", "fuzzlebum",
@@ -26,21 +27,36 @@ function animateTextAndBackground() {
   const span = document.querySelector(".large-text");
   let interval;
   let elapsed = 0;
-  const duration = 300; // ms
+  const duration = 1000; // ms
   const frame = 50; // ms
 
   // Pick final background color immediately
-  const finalColor = colors[Math.floor(Math.random() * colors.length)];
-  document.body.style.background = finalColor;
+  const finalBgColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+  document.body.style.background = finalBgColor;
+
+  // Helper to pick a random text color not matching background
+  function pickTextColor(bg) {
+    const filtered = textColors.filter(c => c !== bg);
+    return filtered[Math.floor(Math.random() * filtered.length)];
+  }
 
   interval = setInterval(() => {
-    // Only animate the text
-    if (span) span.textContent = words[Math.floor(Math.random() * words.length)].toUpperCase();
+    if (span) {
+      const word = words[Math.floor(Math.random() * words.length)].toUpperCase();
+      const color = pickTextColor(finalBgColor);
+      span.textContent = word;
+      span.style.color = color;
+    }
     elapsed += frame;
     if (elapsed >= duration) {
       clearInterval(interval);
-      // Settle on final random word
-      if (span) span.textContent = words[Math.floor(Math.random() * words.length)].toUpperCase();
+      // Settle on final random word and color
+      if (span) {
+        const finalWord = words[Math.floor(Math.random() * words.length)].toUpperCase();
+        const finalTextColor = pickTextColor(finalBgColor);
+        span.textContent = finalWord;
+        span.style.color = finalTextColor;
+      }
       animating = false;
     }
   }, frame);
